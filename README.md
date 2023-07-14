@@ -18,5 +18,5 @@ nodemon - no need to restart server
 
 - [x] login UI
 - [x] register UI
-- [] connect with databse
-- [] logout button
+- [ ] connect with databse
+- [ ] logout button
