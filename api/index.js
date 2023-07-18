@@ -1,19 +1,18 @@
-const express       = require('express');
-const app           = express();
-const bodyParser    = require('body-parser');
-const cookieParser  = require('cookie-parser');
-const authrouter    = require('./routes/v1/auth');
-const Database      = require('./database');
+import express 			from 'express';
+const app           		= express();
+import bodyParser 		from 'body-parser';
+import cookieParser 	from 'cookie-parser';
+import { authrouter } 	from './routes/v1/auth.js';
+import { database }  	from './database.js';
 
-
-const db = new Database('Mysql.db');
+const db = new database('Mysql.db');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-app.use(authrouter(db));
+app.use('/auth/v1/',authrouter(db));
 
 app.all('*', (req, res) => {
 	return res.status(404).send({

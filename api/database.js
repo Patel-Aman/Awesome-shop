@@ -1,13 +1,13 @@
 import { Database } from 'sqlite-async';
 
-class Database {
+class database {
 	constructor(db_file) {
 		this.db_file = db_file;
 		this.db = undefined;
 	}
 	
 	async connect() {
-		this.db = await sqlite.open(this.db_file);
+		this.db = await Database.open(this.db_file);
 	}
 
 	async migrate() {
@@ -60,4 +60,4 @@ class Database {
 
 }
 
-module.exports = Database;
+export { database };

@@ -1,11 +1,15 @@
-const express        = require('express');
+import express 			from 'express';
 const router         = express.Router();
-const JWTHelper      = require('../../helpers/JWTHelper');
+import { JWTHelper }        from '../../helpers/JWTHelper.js';
 
 let db;
 
 const response = data => ({ message: data });
 
+
+router.get('/', async (req, res) => {
+    res.send(response('well done'));
+});
 
 router.post('/register', async (req, res) => {
     const {username, password} = req.body;
@@ -44,7 +48,17 @@ router.get('/logout', (req, res) => {
 	return res.redirect('/');
 });
 
-module.exports = database => { 
-	db = database;
-	return router;
+
+
+// ES6 export
+const authrouter = (database) => {
+    db = database;
+    return router;
 };
+  
+export { authrouter };
+  
+// module.exports = database => { 
+// 	db = database;
+// 	return router;
+// };
