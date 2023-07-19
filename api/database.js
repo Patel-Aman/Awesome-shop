@@ -17,17 +17,21 @@ class database {
             CREATE TABLE IF NOT EXISTS users (
                 id         INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 username   VARCHAR(255) NOT NULL UNIQUE,
-                password   VARCHAR(255) NOT NULL
+                password   VARCHAR(255) NOT NULL,
+                email	   VARCHAR(255) NOT NULL,
+                full_name  VARCHAR(255) NOT NULL,
+                avatar	   VARCHAR(255) NOT NULL
             );
         `);
 	}
 
-	async registerUser(user, pass) {
+	async registerUser(user, pass, email, full_name) {
 		return new Promise(async (resolve, reject) => {
 			try {
-				let stmt = await this.db.prepare('INSERT INTO users (username, password) VALUE (?, ?)');
-				resolve(a(await stmt.run(user, pass)));
+				let stmt = await this.db.prepare('INSERT INTO users (username, password, email, full_name, avatar) VALUES (?, ?, ?, ?, "default.jpg")');
+				resolve(await stmt.run(user, pass, email, full_name));
 			} catch(e) {
+				console.log(e);
 				reject(e);
 			}
 		});
@@ -56,6 +60,28 @@ class database {
 				reject(e);
 			}
 		});
+	}
+
+	async getUser(user) {
+		return new Promise(async (resolve, reject) => {
+			try {
+				let stmt = await this.db.prepare('SELECT * FROM users WHERE username = ?');
+				resolve(stmt.get(user));
+			} catch(e) {
+				reject(e);
+			}
+		});
+	}
+
+	async updateAvatar(user, avatar) {
+		return new Promise(async (resolve, reject) => {
+			try {
+				let stmt = await this.db.prepare('UPDATE users SET avatar = ? WHERE username = ?');
+				resolve(await stmt.run(avatar, user));
+			}catch (e) {
+				reject(e);
+			}
+		})
 	}
 
 }

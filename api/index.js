@@ -3,6 +3,7 @@ const app           		= express();
 import bodyParser 		from 'body-parser';
 import cookieParser 	from 'cookie-parser';
 import { authrouter } 	from './routes/v1/auth.js';
+import { user_router }  from './routes/v1/user.js';
 import { database }  	from './database.js';
 
 const db = new database('Mysql.db');
@@ -12,7 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-app.use('/auth/v1/',authrouter(db));
+app.use('/api/v1/auth',authrouter(db));
+app.use('/api/v1/user',user_router(db));
 
 app.all('*', (req, res) => {
 	return res.status(404).send({

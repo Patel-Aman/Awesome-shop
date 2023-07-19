@@ -1,6 +1,7 @@
-const JWTHelper = require('../helpers/JWTHelper');
+// const JWTHelper = require('../helpers/JWTHelper');
+import { JWTHelper } from "../helpers/JWTHelper.js";
 
-module.exports = async (req, res, next) => {
+const AuthMiddleWare = async (req, res, next) => {
 	try{
 		if (req.cookies.session === undefined) {
 			return res.status(401).json({status: 'unauthorized', message: 'Auth Required'});
@@ -15,3 +16,4 @@ module.exports = async (req, res, next) => {
 		return res.status(500).send('Internal Server Error');
 	}
 }
+export { AuthMiddleWare };
