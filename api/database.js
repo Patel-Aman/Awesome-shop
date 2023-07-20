@@ -133,5 +133,5 @@ class database {
 
 }
 
-// just for checking
+// just for checking how is going
 export { database };
