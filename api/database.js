@@ -22,6 +22,21 @@ class database {
                 full_name  VARCHAR(255) NOT NULL,
                 avatar	   VARCHAR(255) NOT NULL
             );
+            
+            DROP TABLE IF EXISTS details;
+
+            CREATE TABLE IF NOT EXISTS details (
+	            userid         INTEGER      PRIMARY KEY,
+                username   	   VARCHAR(255) NOT NULL UNIQUE,
+                email          VARCHAR(255) NOT NULL,
+                full_name      VARCHAR(255) NOT NULL,
+                avatar         VARCHAR(255) NOT NULL,
+                address        VARCHAR(255),
+                pincode        INTEGER,
+                ccode          VARCHAR(4),
+                mobile         VARCHAR(10),
+                GENDER         VARCHAR(255)
+            );
         `);
 	}
 
@@ -29,7 +44,15 @@ class database {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let stmt = await this.db.prepare('INSERT INTO users (username, password, email, full_name, avatar) VALUES (?, ?, ?, ?, "default.jpg")');
-				resolve(await stmt.run(user, pass, email, full_name));
+				let stmt2 = await this.db.prepare('INSERT INTO details (username, email, full_name, avatar) VALUES (?, ?, ?, "default.jpg")');
+
+				await stmt.run(user, pass, email, full_name);
+				await stmt2.run(user, email, full_name);
+
+				await stmt.finalize();
+				await stmt2.finalize();
+				resolve();
+
 			} catch(e) {
 				console.log(e);
 				reject(e);
@@ -66,7 +89,7 @@ class database {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let stmt = await this.db.prepare('SELECT * FROM users WHERE username = ?');
-				resolve(stmt.get(user));
+				resolve((await stmt.get(user)));
 			} catch(e) {
 				reject(e);
 			}
@@ -78,6 +101,30 @@ class database {
 			try {
 				let stmt = await this.db.prepare('UPDATE users SET avatar = ? WHERE username = ?');
 				resolve(await stmt.run(avatar, user));
+			}catch (e) {
+				reject(e);
+			}
+		})
+	}
+
+
+	async addDetails(user, user_detail) {
+		return new Promise(async (resolve, reject) => {
+			try {
+				let stmt = await this.db.prepare('UPDATE details SET address = ?, pincode= ?, ccode = ?, mobile = ?, GENDER = ? WHERE username = ?');
+				resolve(stmt.run(user_detail.address, user_detail.pincode, user_detail.ccode, user_detail.mobile, user_detail.GENDER, user.username));
+			} catch (e) {
+				reject(e);
+			}
+		})
+	};
+
+	async getDetails(user) {
+		return new Promise(async (resolve, reject) => {
+			try {
+				console.log(user);
+				let stmt = await this.db.prepare('SELECT * from details WHERE username = ?');
+				resolve((await stmt.get(user.username)));
 			}catch (e) {
 				reject(e);
 			}
