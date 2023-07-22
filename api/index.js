@@ -4,9 +4,12 @@ import bodyParser 		from 'body-parser';
 import cookieParser 	from 'cookie-parser';
 import { authrouter } 	from './routes/v1/auth.js';
 import { user_router }  from './routes/v1/user.js';
-import { database }  	from './database.js';
+import { database } 	from './database.js'
+import mongoose from "mongoose";
+import {MongoClient} from "mongodb";
 
-const db = new database('Mysql.db');
+const url = "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.1";
+const db = new database(url);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,6 +27,6 @@ app.all('*', (req, res) => {
 
 (async () => {
 	await db.connect();
-	await db.migrate();
+	await db.schemas();
 	app.listen(3000, '0.0.0.0', () => console.log('Listening on port 3000'));
 })();

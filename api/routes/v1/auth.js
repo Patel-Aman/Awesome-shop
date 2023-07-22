@@ -9,18 +9,19 @@ const response = data => ({ message: data });
 
 
 router.get('/', async (req, res) => {
+    console.log(db.User);
     res.send(response('well done'));
 });
 
 router.post('/register', async (req, res) => {
-    const {username, password, email, full_name} = req.body;
+    const {username, password, email} = req.body;
 
-    if (username && password && email && full_name) {
-        const hashpassword = crypto.createHash('sha256').update(password).digest('hex');
-        return db.checkUser(username)
+    if (username && password && email) {
+        const hashPassword = crypto.createHash('sha256').update(password).digest('hex');
+        return await db.getUser(username)
             .then(user => {
                 if (user) return res.status(401).send(response('User already registered!'));
-                return db.registerUser(username, hashpassword, email, full_name)
+                return db.registerUser(username, hashPassword, email)
                     .then(() => res.send(response('User Registered Successfully!')))
             })
             .catch(() => res.send(response('Something Went Wrong!')));
