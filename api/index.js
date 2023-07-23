@@ -8,8 +8,9 @@ import { database } 	from './database.js'
 import mongoose from "mongoose";
 import {MongoClient} from "mongodb";
 
-const url = "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.1";
-const db = new database(url);
+const url = "mongodb://127.0.0.1:27017/";
+const dbName = "db"
+const db = new database(url, dbName);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
