@@ -8,14 +8,17 @@ import {
   Button,
 } from '@material-ui/core';
 import { Outlet, Link } from 'react-router-dom';
+import CustomRoutes from '../../constants/routes';
 
 const Layout = ({ children }) => {
   return (
     <div>
       <AppBar position="static">
         <Toolbar style={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6">Awesome Shop</Typography>
-          <Button color="inherit" component={Link} to="/login/">
+          <Link to={CustomRoutes.home}>
+            <img src="../../../public/Awesome_Shop-removebg-preview.png" alt="Logo" style={{ height: '50px', marginRight: '10px' }} />
+          </Link>
+          <Button color="inherit" component={Link} to={CustomRoutes.login}>
             Login
           </Button>
         </Toolbar>

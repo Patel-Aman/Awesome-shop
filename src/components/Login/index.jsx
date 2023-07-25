@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import './login.scss';
 import { Link } from 'react-router-dom';
+import CustomRoutes from '../../constants/routes';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -60,7 +61,7 @@ const LoginPage = () => {
         </Button>
       </form>
       <Typography align="center">Not registered? Register Here</Typography>
-      <Link to="/register/">
+      <Link to={CustomRoutes.register}>
         <Box textAlign="center">
           <Button variant="contained" color="primary">
             Register

@@ -7,6 +7,7 @@ import {
   Box,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import CustomRoutes from '../../constants/routes';
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -93,7 +94,7 @@ const RegisterPage = () => {
       <Typography align="center" gutterBottom>
         Already registered? login Here
       </Typography>
-      <Link to="/login/">
+      <Link to={CustomRoutes.login}>
         <Box textAlign="center">
           <Button variant="contained" color="primary">
             Login

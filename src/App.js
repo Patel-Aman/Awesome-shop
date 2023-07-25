@@ -6,15 +6,16 @@ import RegisterPage from './components/Register';
 import LoginPage from './components/Login';
 import Layout from './components/Layout';
 import HomePage from './components/Home';
+import CustomRoutes from './constants/routes';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path={CustomRoutes.home} element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="login/" element={<LoginPage />} />
-          <Route path="register/" element={<RegisterPage />} />
+          <Route path={CustomRoutes.login} element={<LoginPage />} />
+          <Route path={CustomRoutes.register} element={<RegisterPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
