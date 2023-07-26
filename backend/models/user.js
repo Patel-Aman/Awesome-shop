@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     public:
         {
             username: {type: String, required: true},
-            avatar: {type: String, required: true, default: 'default.jpg'},
+            avatar: {type: String, required: true, default: 'users/default.jpg'},
             email: {type: String, required: true}
         },
     details: {

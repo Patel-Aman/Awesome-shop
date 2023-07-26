@@ -2,8 +2,9 @@ import express 			from 'express';
 import bodyParser 		from 'body-parser';
 import cookieParser 	from 'cookie-parser';
 import mongoose 		from "mongoose";
-import  auth_router  	from './routes/v1/auth.js';
-import  user_router   	from './routes/v1/user.js';
+import auth_router  	from './routes/v1/auth.js';
+import user_router   	from './routes/v1/user.js';
+import item_router 		from "./routes/v1/items.js";
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(cookieParser());
 
 app.use('/api/v1/auth',auth_router);
 app.use('/api/v1/user',user_router);
-
+app.use('/api/v1/item', item_router);
 app.all('*', (req, res) => {
 	return res.status(404).send({
 		message: '404 page not found'

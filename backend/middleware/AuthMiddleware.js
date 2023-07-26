@@ -7,7 +7,8 @@ const AuthMiddleWare = async (req, res, next) => {
 		}
 		let data = await JWTHelper.decode(req.cookies.session);
 		req.data = {
-			username: data.username
+			username: data.username,
+			admin: false,
 		}
 		next();
 	} catch(e){
