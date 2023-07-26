@@ -1,5 +1,4 @@
-// const JWTHelper = require('../helpers/JWTHelper');
-import { JWTHelper } from "../helpers/JWTHelper.js";
+import JWTHelper  from "../helpers/JWTHelper.js";
 
 const AuthMiddleWare = async (req, res, next) => {
 	try{
@@ -16,4 +15,4 @@ const AuthMiddleWare = async (req, res, next) => {
 		return res.status(500).send('Internal Server Error');
 	}
 }
-export { AuthMiddleWare };
+export default AuthMiddleWare;

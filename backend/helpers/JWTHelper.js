@@ -12,4 +12,4 @@ const JWTHelper = {
 		return jwt.verify(token, APP_SECRET, {algorithms: 'HS256'})
 	}
 }
-export { JWTHelper };
+export default JWTHelper ;

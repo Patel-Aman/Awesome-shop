@@ -1,15 +1,14 @@
-import express 			from 'express';
-const router         = express.Router();
-import { JWTHelper }        from '../../helpers/JWTHelper.js';
-import  crypto  from 'crypto';
+import express 		from 'express';
+import  crypto      from 'crypto';
+import JWTHelper    from '../../helpers/JWTHelper.js';
+import * as User    from '../../models/user.js';
 
-let db;
+const router         = express.Router();
 
 const response = data => ({ message: data });
 
 
 router.get('/', async (req, res) => {
-    console.log(db.User);
     res.send(response('well done'));
 });
 
@@ -18,10 +17,10 @@ router.post('/register', async (req, res) => {
 
     if (username && password && email) {
         const hashPassword = crypto.createHash('sha256').update(password).digest('hex');
-        return await db.getUser(username)
+        return await User.getUser(username)
             .then(user => {
                 if (user) return res.status(401).send(response('User already registered!'));
-                return db.registerUser(username, hashPassword, email)
+                return User.registerUser(username, hashPassword, email)
                     .then(() => res.send(response('User Registered Successfully!')))
             })
             .catch(() => res.send(response('Something Went Wrong!')));
@@ -36,7 +35,7 @@ router.post('/login', async (req, res) => {
     const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     if (username && password){
-        return db.loginUser(username, hashedPassword)
+        return User.loginUser(username, hashedPassword)
             .then(user => {
                 let token = JWTHelper.sign({username: user.username });
                 res.cookie('session', token, {maxAge: 3600000, httpOnly: true});
@@ -58,14 +57,4 @@ router.get('/logout', (req, res) => {
 
 
 // ES6 export
-const authrouter = (database) => {
-    db = database;
-    return router;
-};
-  
-export { authrouter };
-  
-// module.exports = database => { 
-// 	db = database;
-// 	return router;
-// };
+export default router;
