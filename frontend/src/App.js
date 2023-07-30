@@ -6,6 +6,7 @@ import RegisterPage from './components/Register';
 import LoginPage from './components/Login';
 import Layout from './components/Layout';
 import HomePage from './components/Home';
+import WelcomePage from './components/Welcome';
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="login/" element={<LoginPage />} />
           <Route path="register/" element={<RegisterPage />} />
+          <Route
+            path="welcome/"
+            element={<WelcomePage username="Aman Patel" />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
