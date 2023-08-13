@@ -17,6 +17,12 @@ router.get('/:id', AuthMiddleWare ,async (req, res) => {
         .catch((e) => res.send(response('Something Went Wrong')));
 });
 
+router.get('/search', AuthMiddleWare, async (req, res) => {
+    const name = req.params.name;
+    return Item.search(name)
+        .then(items => res.send(items))
+        .catch((e) => res.send(response('Something Went Wrong')))
+})
 router.post('/addItem', AuthMiddleWare,async (req, res) => {
     const newItem = req.body;
     return User.getUser(req.data.username)

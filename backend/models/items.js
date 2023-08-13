@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import UserDb from "./user.js";
 const Schema = mongoose.Schema;
 
 // Define the Sales sub-schema
@@ -68,7 +67,17 @@ const getItemById = async (user, id) => {
             if (items.owner === 'user') resolve(items);
             else resolve(await items.select('-sales').select('-_id').select('-__v').exec());
         }catch (e){
-            console.log(e);
+            reject(e);
+        }
+    })
+}
+
+const search = async (name) => {
+    return new Promise( async (resolve , reject) => {
+        try {
+            const items = await Item.find({name: {$regex : '^'+name}.exec()});
+            resolve(items);
+        } catch (e) {
             reject(e);
         }
     })
@@ -77,4 +86,4 @@ const getItemById = async (user, id) => {
 // Create the Item model
 const Item = mongoose.model('Item', itemSchema);
 
-export { addItem, getItemById };
+export { addItem, getItemById, search };
